@@ -1,33 +1,46 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React, { useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import AuthProvider from "./context/AuthContext";
+import AuthProvider, { AuthContext } from "./context/AuthContext";
 import Profile from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 import GuideList from "./pages/GuideList";
 import GuideDetail from "./pages/GuideDetail";
 import MyReservations from "./pages/MyReservations";
-import "./App.css"; // CSS dosyası
+import "./App.css";
 
-const App = () => {
+const Navbar = () => {
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // Çıkış yapma işlemi
+    navigate("/"); // Çıkış yaptıktan sonra anasayfaya yönlendir
+  };
+
   return (
-    <AuthProvider>
-      <Router>
-        {/* Navbar */}
-        <nav className="navbar">
-          <div className="navbar-container">
-            <Link to="/" className="navbar-brand">
-              ShowAround
-            </Link>
-            <ul className="navbar-menu">
-              <li>
-                <Link to="/">Ana Sayfa</Link>
-              </li>
-              <li>
-                <Link to="/guides">Rehberler</Link>
-              </li>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="navbar-brand">
+          ShowAround
+        </Link>
+        <ul className="navbar-menu">
+          <li>
+            <Link to="/">Ana Sayfa</Link>
+          </li>
+          <li>
+            <Link to="/guides">Rehberler</Link>
+          </li>
+          {isAuthenticated ? (
+            <>
               <li>
                 <Link to="/profile">Profil</Link>
               </li>
@@ -35,16 +48,32 @@ const App = () => {
                 <Link to="/my-reservations">Rezervasyonlarım</Link>
               </li>
               <li>
+                <button onClick={handleLogout} className="navbar-logout">
+                  Çıkış Yap
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
                 <Link to="/login">Giriş Yap</Link>
               </li>
               <li>
                 <Link to="/register">Kayıt Ol</Link>
               </li>
-            </ul>
-          </div>
-        </nav>
+            </>
+          )}
+        </ul>
+      </div>
+    </nav>
+  );
+};
 
-        {/* Routes */}
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <Navbar />
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />

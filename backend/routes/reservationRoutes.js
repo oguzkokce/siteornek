@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const Reservation = require("../models/Reservation");
+const Guide = require("../models/Guide");
 const authMiddleware = require("../middleware/authMiddleware");
 
 // Rezervasyon oluştur
@@ -8,10 +10,34 @@ router.post("/", authMiddleware, async (req, res) => {
   try {
     const { guideId, date } = req.body;
 
-    if (!guideId || !date) {
-      return res.status(400).json({ error: "Gerekli bilgiler eksik." });
+    // Validate guideId
+    if (!mongoose.Types.ObjectId.isValid(guideId)) {
+      return res.status(400).json({ error: "Geçersiz rehber ID'si." });
     }
 
+    // Validate user ID from authMiddleware
+    if (!mongoose.Types.ObjectId.isValid(req.user.id)) {
+      return res.status(400).json({ error: "Geçersiz kullanıcı ID'si." });
+    }
+
+    // Check if guide exists
+    const guide = await Guide.findById(guideId);
+    if (!guide) {
+      return res.status(404).json({ error: "Rehber bulunamadı." });
+    }
+
+    // Check for existing reservation
+    const existingReservation = await Reservation.findOne({
+      guide: guideId,
+      date,
+    });
+    if (existingReservation) {
+      return res
+        .status(400)
+        .json({ error: "Bu tarih için zaten bir rezervasyon var." });
+    }
+
+    // Create new reservation
     const reservation = new Reservation({
       user: req.user.id,
       guide: guideId,
