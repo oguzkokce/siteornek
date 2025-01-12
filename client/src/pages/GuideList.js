@@ -2,25 +2,40 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Map from "../components/Map";
+import "./GuideList.css";
 
 const GuideList = () => {
   const [guides, setGuides] = useState([]);
+  const [search, setSearch] = useState(""); // Arama terimi
+  const [minPrice, setMinPrice] = useState(""); // Minimum fiyat
+  const [maxPrice, setMaxPrice] = useState(""); // Maksimum fiyat
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchGuides = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/guides");
-        console.log("API'den Gelen Veri:", response.data);
-        setGuides(response.data);
-      } catch (error) {
-        console.error("Rehberleri çekerken hata oluştu:", error);
-        setError("Rehberleri yüklerken bir sorun oluştu.");
-      }
-    };
-
-    fetchGuides();
+    fetchGuides(); // Sayfa yüklendiğinde rehberleri getir
   }, []);
+
+  const fetchGuides = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/guides", {
+        params: {
+          search: search || undefined,
+          minPrice: minPrice || undefined,
+          maxPrice: maxPrice || undefined,
+        },
+      });
+      console.log("API'den Gelen Veri:", response.data);
+      setGuides(response.data);
+    } catch (error) {
+      console.error("Rehberleri çekerken hata oluştu:", error);
+      setError("Rehberleri yüklerken bir sorun oluştu.");
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault(); // Sayfa yenilenmesini önler
+    fetchGuides(); // Filtrelenmiş rehberleri getir
+  };
 
   return (
     <div style={{ padding: "20px" }}>
@@ -39,6 +54,41 @@ const GuideList = () => {
           {error}
         </div>
       )}
+
+      {/* Arama ve Filtreleme Formu */}
+      <form
+        onSubmit={handleSearch}
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "20px",
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Rehber adı veya açıklama"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ flex: "1", marginRight: "10px", padding: "8px" }}
+        />
+        <input
+          type="number"
+          placeholder="Min Fiyat"
+          value={minPrice}
+          onChange={(e) => setMinPrice(e.target.value)}
+          style={{ flex: "1", marginRight: "10px", padding: "8px" }}
+        />
+        <input
+          type="number"
+          placeholder="Max Fiyat"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
+          style={{ flex: "1", marginRight: "10px", padding: "8px" }}
+        />
+        <button type="submit" style={{ padding: "8px 16px" }}>
+          Filtrele
+        </button>
+      </form>
 
       {/* Harita Bileşeni */}
       <div

@@ -148,4 +148,44 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const { search, minPrice, maxPrice, location } = req.query;
+
+    // Filtreleme kriterlerini oluştur
+    let filter = {};
+
+    // Arama (isim veya açıklama)
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // Fiyat aralığı
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = parseFloat(minPrice);
+      if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
+    }
+
+    // Lokasyon filtresi (örneğin: belirli bir şehir için)
+    if (location) {
+      filter["location.coordinates"] = {
+        $geoWithin: {
+          $centerSphere: [[location.lng, location.lat], 50 / 6378.1],
+        },
+      }; // 50 km'lik bir yarıçap için
+    }
+
+    // Filtrelenmiş rehberleri getir
+    const guides = await Guide.find(filter);
+    res.json(guides);
+  } catch (error) {
+    console.error("Rehberleri getirirken hata:", error);
+    res.status(500).json({ error: "Rehberler alınırken bir hata oluştu." });
+  }
+});
+
 module.exports = router;
