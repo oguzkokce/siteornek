@@ -15,14 +15,17 @@ import PrivateRoute from "./components/PrivateRoute";
 import GuideList from "./pages/GuideList";
 import GuideDetail from "./pages/GuideDetail";
 import MyReservations from "./pages/MyReservations";
+import GuideRegister from "./pages/GuideRegister";
+import GuideLogin from "./pages/GuideLogin";
+import GuideDashboard from "./pages/GuideDashboard";
 import "./App.css";
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, role, logout } = useContext(AuthContext); // role eklendi
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Çıkış yapma işlemi
+    logout(); // Çıkış işlemi
     navigate("/"); // Çıkış yaptıktan sonra anasayfaya yönlendir
   };
 
@@ -33,13 +36,16 @@ const Navbar = () => {
           ShowAround
         </Link>
         <ul className="navbar-menu">
+          {/* Herkese görünür linkler */}
           <li>
             <Link to="/">Ana Sayfa</Link>
           </li>
           <li>
             <Link to="/guides">Rehberler</Link>
           </li>
-          {isAuthenticated ? (
+
+          {/* Kullanıcı giriş yaptıysa */}
+          {isAuthenticated && role === "user" && (
             <>
               <li>
                 <Link to="/profile">Profil</Link>
@@ -47,19 +53,39 @@ const Navbar = () => {
               <li>
                 <Link to="/my-reservations">Rezervasyonlarım</Link>
               </li>
+            </>
+          )}
+
+          {/* Rehber giriş yaptıysa */}
+          {isAuthenticated && role === "guide" && (
+            <>
               <li>
-                <button onClick={handleLogout} className="navbar-logout">
-                  Çıkış Yap
-                </button>
+                <Link to="/guide-dashboard">Rehber Paneli</Link>
               </li>
             </>
+          )}
+
+          {/* Giriş yapıldıysa çıkış butonu */}
+          {isAuthenticated ? (
+            <li>
+              <button onClick={handleLogout} className="navbar-logout">
+                Çıkış Yap
+              </button>
+            </li>
           ) : (
             <>
+              {/* Giriş yapılmadıysa giriş ve kayıt linkleri */}
               <li>
                 <Link to="/login">Giriş Yap</Link>
               </li>
               <li>
                 <Link to="/register">Kayıt Ol</Link>
+              </li>
+              <li>
+                <Link to="/guide-login">Rehber Girişi</Link>
+              </li>
+              <li>
+                <Link to="/guide-register">Rehber Kayıt</Link>
               </li>
             </>
           )}
@@ -75,6 +101,7 @@ const App = () => {
       <Router>
         <Navbar />
         <Routes>
+          {/* Kullanıcı Rotaları */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
@@ -87,6 +114,14 @@ const App = () => {
           <Route
             path="/my-reservations"
             element={<PrivateRoute element={<MyReservations />} />}
+          />
+
+          {/* Rehber Rotaları */}
+          <Route path="/guide-register" element={<GuideRegister />} />
+          <Route path="/guide-login" element={<GuideLogin />} />
+          <Route
+            path="/guide-dashboard"
+            element={<PrivateRoute element={<GuideDashboard />} />}
           />
         </Routes>
       </Router>

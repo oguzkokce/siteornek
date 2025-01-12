@@ -3,13 +3,15 @@ import { AuthContext } from "../context/AuthContext"; // AuthContext'i içeri ak
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { user, logout, isAuthenticated } = useContext(AuthContext);
+  const { role, isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Çıkış yap
-    navigate("/"); // Anasayfaya yönlendir
+    logout();
+    navigate("/");
   };
+
+  console.log("Auth Durumu:", { isAuthenticated, role }); // Kontrol için ekledik
 
   return (
     <nav style={{ padding: "10px", backgroundColor: "#f4f4f4" }}>
@@ -17,17 +19,32 @@ const Navbar = () => {
         <li style={{ marginRight: "20px" }}>
           <Link to="/">Anasayfa</Link>
         </li>
-        {isAuthenticated ? (
+        <li style={{ marginRight: "20px" }}>
+          <Link to="/guides">Rehberler</Link>
+        </li>
+        {isAuthenticated && role === "user" && (
           <>
+            <li style={{ marginRight: "20px" }}>
+              <Link to="/profile">Profil</Link>
+            </li>
             <li style={{ marginRight: "20px" }}>
               <Link to="/my-reservations">Rezervasyonlarım</Link>
             </li>
-            <li>
-              <button onClick={handleLogout} style={{ cursor: "pointer" }}>
-                Çıkış Yap
-              </button>
+          </>
+        )}
+        {isAuthenticated && role === "guide" && (
+          <>
+            <li style={{ marginRight: "20px" }}>
+              <Link to="/guide-dashboard">Rehber Paneli</Link>
             </li>
           </>
+        )}
+        {isAuthenticated ? (
+          <li>
+            <button onClick={handleLogout} style={{ cursor: "pointer" }}>
+              Çıkış Yap
+            </button>
+          </li>
         ) : (
           <>
             <li style={{ marginRight: "20px" }}>

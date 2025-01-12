@@ -20,9 +20,11 @@ router.post("/login", async (req, res) => {
     }
 
     // Token oluşturma
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: user._id, role: "user" }, // Burada kullanıcının rolünü ekliyoruz
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
     console.log("Generated Token:", token); // Loglama ekledim
 
