@@ -1,0 +1,160 @@
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+}
+
+.homepage {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Tüm ekran yüksekliği */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: white;
+  background: url("../assets/gif.video") center center/cover no-repeat;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* GIF'in üstüne koyu bir filtre */
+  z-index: 1;
+}
+
+.hero-section .hero-content {
+  position: relative;
+  z-index: 2; /* İçeriği GIF'in üstünde tut */
+  text-align: center;
+}
+
+.cta-button {
+  padding: 15px 30px;
+  font-size: 1rem;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hero-content h1 {
+  color: #ffffff; /* Yazıyı açık bir renge ayarlar (örneğin beyaz) */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Daha okunabilir hale getirmek için gölge ekler */
+}
+
+.cta-button:hover {
+  background-color: #0056b3;
+}
+
+/* Öne Çıkan Rehberler */
+.featured-guides {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+}
+
+.guide-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.guide-card {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 250px;
+  padding: 20px;
+  color: white;
+}
+
+.guide-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.guide-card-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.guide-card-content p {
+  font-size: 1rem;
+}
+
+/* Nasıl Çalışır Bölümü */
+.how-it-works {
+  padding: 50px 20px;
+  background: #f8f8f8;
+  text-align: center;
+}
+
+.steps {
+  display: flex;
+  justify-content: center; /* Yatay olarak ortala */
+  align-items: center; /* Dikey olarak ortala */
+  gap: 40px;
+}
+
+.step {
+  text-align: center;
+  max-width: 200px;
+}
+
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  background: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  margin: 0 auto 20px auto;
+}
+
+/* Kullanıcı Yorumları */
+.testimonials {
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #fbc2eb, #a18cd1);
+  color: white;
+  text-align: center;
+}
+
+.testimonial-slider {
+  display: flex;
+  justify-content: center; /* Yatay olarak ortala */
+  gap: 20px; /* Kartlar arası boşluk */
+  padding: 20px;
+}
+
+.testimonial {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 20px;
+  min-width: 300px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}

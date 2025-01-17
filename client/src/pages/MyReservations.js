@@ -1,52 +1,49 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import "./MyReservations.css"; // CSS dosyasını dahil ediyoruz
 
 const MyReservations = () => {
-  const { user } = useContext(AuthContext); // Kullanıcı bilgisi
-  const [reservations, setReservations] = useState([]); // Rezervasyonlar
-  const [error, setError] = useState(""); // Hata mesajı
+  const { user } = useContext(AuthContext);
+  const [reservations, setReservations] = useState([]);
+  const [error, setError] = useState("");
 
-  // API'den rezervasyonları getir
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const token = localStorage.getItem("token"); // Token'i al
+        const token = localStorage.getItem("token");
         const response = await axios.get(
           "http://localhost:5000/api/reservations/my-reservations",
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Token'i header'a ekle
+              Authorization: `Bearer ${token}`,
             },
           }
         );
-        setReservations(response.data); // Gelen veriyi kaydet
+        setReservations(response.data);
       } catch (err) {
         console.error("Rezervasyonları çekerken hata oluştu:", err);
-        setError("Rezervasyonlar yüklenirken bir hata oluştu."); // Hata mesajı
+        setError("Rezervasyonlar yüklenirken bir hata oluştu.");
       }
     };
 
-    fetchReservations(); // Fonksiyonu çağır
+    fetchReservations();
   }, []);
 
-  // Eğer hata varsa hata mesajını göster
   if (error) {
-    return <p>{error}</p>;
+    return <p className="error-message">{error}</p>;
   }
 
-  // Eğer rezervasyon yoksa bilgi mesajı göster
   if (!reservations.length) {
-    return <p>Henüz bir rezervasyon yapılmamış.</p>;
+    return <p className="info-message">Henüz bir rezervasyon yapılmamış.</p>;
   }
 
-  // Rezervasyonları listele
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="reservations-container">
       <h1>Rezervasyonlarım</h1>
-      <ul>
+      <ul className="reservations-list">
         {reservations.map((reservation, index) => (
-          <li key={index}>
+          <li key={index} className="reservation-item">
             <p>
               <strong>Rehber:</strong>{" "}
               {reservation.guide?.name || "Rehber bilgisi mevcut değil"}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./Register.css"; // CSS dosyasını dahil ediyoruz
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -21,26 +22,45 @@ const Register = () => {
       );
       alert(res.data.message);
     } catch (err) {
-      alert(err.response.data.error);
+      alert(err.response?.data?.error || "Kayıt sırasında bir hata oluştu.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="username"
-        placeholder="Kullanıcı Adı"
-        onChange={handleChange}
-      />
-      <input name="email" placeholder="E-posta" onChange={handleChange} />
-      <input
-        name="password"
-        type="password"
-        placeholder="Şifre"
-        onChange={handleChange}
-      />
-      <button type="submit">Kayıt Ol</button>
-    </form>
+    <div className="register-container">
+      <form className="register-form" onSubmit={handleSubmit}>
+        <h1>Kayıt Ol</h1>
+        <div className="input-group">
+          <input
+            name="username"
+            placeholder="Kullanıcı Adı"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <input
+            name="email"
+            placeholder="E-posta"
+            type="email"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <input
+            name="password"
+            type="password"
+            placeholder="Şifre"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button className="submit-button" type="submit">
+          Kayıt Ol
+        </button>
+      </form>
+    </div>
   );
 };
 

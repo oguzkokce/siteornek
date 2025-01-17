@@ -1,0 +1,63 @@
+/* Genel Konteyner */
+.reservations-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #f8f9fa; /* Hafif bir arka plan */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif bir gölge */
+  font-family: "Arial", sans-serif;
+}
+
+/* Başlık */
+.reservations-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #343a40; /* Koyu gri */
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Hata ve Bilgi Mesajları */
+.error-message,
+.info-message {
+  text-align: center;
+  margin-top: 20px;
+  color: #ff6b6b; /* Hata mesajı için kırmızı */
+  font-size: 1.2rem;
+}
+
+/* Liste Konteyneri */
+.reservations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Rezervasyon Kartları */
+.reservation-item {
+  background: #ffffff; /* Beyaz arka plan */
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+  transition: transform 0.2s, box-shadow 0.2s; /* Hover efekti için */
+}
+
+/* Hover Efekti */
+.reservation-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Rezervasyon Bilgileri */
+.reservation-item p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #495057; /* Orta koyulukta gri */
+}
+
+.reservation-item strong {
+  color: #007bff; /* Öne çıkan metinler için mavi */
+}

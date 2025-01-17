@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import AuthProvider, { AuthContext } from "./context/AuthContext";
 import Profile from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
@@ -104,7 +104,7 @@ const App = () => {
           {/* Kullanıcı Rotaları */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route
             path="/profile"
             element={<PrivateRoute element={<Profile />} />}

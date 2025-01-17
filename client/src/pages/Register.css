@@ -1,0 +1,75 @@
+/* Genel Konteyner */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Tam ekran yüksekliği */
+  background: linear-gradient(
+    135deg,
+    #eef2f3,
+    #8e9eab
+  ); /* Göz yormayan pastel tonlar */
+  color: #333; /* Koyu gri metin */
+}
+
+/* Form */
+.register-form {
+  background: rgba(255, 255, 255, 0.9); /* Hafif beyaz form arka planı */
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Hafif bir gölge */
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.register-form h1 {
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #333; /* Koyu gri */
+  letter-spacing: 1px;
+}
+
+/* Input Alanları */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc; /* Hafif gri kenar */
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-group input::placeholder {
+  color: #aaa; /* Açık gri placeholder */
+}
+
+.input-group input:focus {
+  border-color: #007bff; /* Odaklanıldığında mavi kenar */
+  box-shadow: 0px 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+/* Kayıt Ol Butonu */
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  background: #007bff; /* Sade bir mavi ton */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-button:hover {
+  background: #0056b3; /* Daha koyu mavi */
+}
+
+.submit-button:active {
+  background: #004494;
+}
