@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Search from "./Search";
 
 const GuideDetail = () => {
   const { id } = useParams();
-  const [guide, setGuide] = useState(null);
-  const [reservationDate, setReservationDate] = useState("");
-  const [message, setMessage] = useState("");
+  const [guide, setGuide] = useState(null); // Rehber detayları
+  const [guides, setGuides] = useState([]); // Arama sonuçları
+  const [reservationDate, setReservationDate] = useState(""); // Rezervasyon tarihi
+  const [message, setMessage] = useState(""); // Rezervasyon mesajı
 
-  // Rehber verisini getirme
-  React.useEffect(() => {
+  // Rehber detaylarını getirme
+  useEffect(() => {
     const fetchGuide = async () => {
       try {
         const response = await axios.get(
@@ -28,16 +30,15 @@ const GuideDetail = () => {
   const handleReservation = async (e) => {
     e.preventDefault();
     try {
-      // Rezervasyon API isteği
       const response = await axios.post(
         "http://localhost:5000/api/reservations",
         {
           guideId: id,
-          date: reservationDate, // Tarih burada tam formatta gönderiliyor
+          date: reservationDate,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Kullanıcı token'ını ekle
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -50,6 +51,12 @@ const GuideDetail = () => {
     }
   };
 
+  // Arama sonuçlarını güncelleme
+  const handleSearchResults = (results) => {
+    setGuides(results);
+  };
+
+  // Rehber detayları yüklenirken
   if (!guide) {
     return <p>Yükleniyor...</p>;
   }
@@ -59,6 +66,23 @@ const GuideDetail = () => {
       <h1>{guide.name}</h1>
       <p>{guide.description}</p>
       <p>Fiyat: {guide.price} TL</p>
+
+      {/* Arama Bileşeni */}
+      <Search onSearchResults={handleSearchResults} />
+
+      {/* Arama Sonuçları */}
+      <div style={{ marginTop: "20px" }}>
+        {guides.length > 0 ? (
+          guides.map((guide) => (
+            <div key={guide.id}>
+              <h2>{guide.name}</h2>
+              <p>{guide.location}</p>
+            </div>
+          ))
+        ) : (
+          <p>Arama sonuçları burada görünecek.</p>
+        )}
+      </div>
 
       {/* Rezervasyon Formu */}
       <form onSubmit={handleReservation} style={{ marginTop: "20px" }}>
@@ -77,7 +101,9 @@ const GuideDetail = () => {
       </form>
 
       {/* Mesaj */}
-      {message && <p>{message}</p>}
+      {message && (
+        <p style={{ marginTop: "10px", color: "green" }}>{message}</p>
+      )}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import axios from "axios";
+import styles from "./GuideRegister.module.css"; // CSS modülü ekledik
 
 const GuideRegister = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,6 @@ const GuideRegister = () => {
   });
   const [markerPosition, setMarkerPosition] = useState([39.92077, 32.85411]); // Varsayılan Ankara koordinatları
 
-  // Haritaya tıklama olayı
   const MapClickHandler = () => {
     useMapEvents({
       click: (e) => {
@@ -38,9 +38,6 @@ const GuideRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Kayıt Edilen Veri:", formData); // Konsolda veriyi kontrol edin
-
     try {
       const response = await axios.post(
         "http://localhost:5000/api/guides/register",
@@ -48,22 +45,19 @@ const GuideRegister = () => {
           ...formData,
           location: {
             type: "Point",
-            coordinates: [formData.location.lng, formData.location.lat], // Backend için longitude, latitude formatı
+            coordinates: [formData.location.lng, formData.location.lat],
           },
         }
       );
       alert("Rehber başarıyla kaydedildi!");
     } catch (error) {
-      console.error(
-        "Kayıt sırasında hata:",
-        error.response?.data || error.message
-      );
+      console.error("Kayıt sırasında hata:", error);
       alert("Kayıt sırasında bir hata oluştu.");
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className={styles["guide-register-container"]}>
       <h1>Rehber Kayıt</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -121,6 +115,7 @@ const GuideRegister = () => {
             center={markerPosition}
             zoom={6}
             style={{ height: "400px", width: "100%" }}
+            className={styles["map-container"]}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

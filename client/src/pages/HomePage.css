@@ -38,13 +38,22 @@ body {
 }
 
 .cta-button {
-  padding: 15px 30px;
-  font-size: 1rem;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
   cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
 .hero-content h1 {
@@ -53,7 +62,7 @@ body {
 }
 
 .cta-button:hover {
-  background-color: #0056b3;
+  background-color: #fff;
 }
 
 /* Öne Çıkan Rehberler */
@@ -71,7 +80,7 @@ body {
 }
 
 .guide-card {
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  background: linear-gradient(135deg, #6b71a5, #9db9e3);
   border-radius: 15px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -116,7 +125,7 @@ body {
 .icon-circle {
   width: 60px;
   height: 60px;
-  background: #007bff;
+  background: #4d9df2;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -129,7 +138,7 @@ body {
 /* Kullanıcı Yorumları */
 .testimonials {
   padding: 50px 20px;
-  background: linear-gradient(135deg, #fbc2eb, #a18cd1);
+  background: linear-gradient(135deg, #6b71a5, #9db9e3);
   color: white;
   text-align: center;
 }
